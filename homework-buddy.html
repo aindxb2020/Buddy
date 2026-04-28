@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buddy | AI Workspace</title>
+  <meta
+    name="description"
+    content="Buddy is a premium AI workspace with image explanation, free and paid model tiers, and a video paywall."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="homework-buddy.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-brand">
+          <img src="https://www.image2url.com/r2/default/images/1777115003135-68493c90-4435-411d-aa8f-d55bb055ac5c.png" alt="Buddy" class="brand-logo">
+          <div>
+            <strong>Buddy</strong>
+            <small>AI workspace</small>
+          </div>
+        </div>
+        <button class="icon-button icon-button-text" id="collapse-sidebar" type="button" aria-label="Toggle sidebar">
+          <img src="https://www.image2url.com/r2/default/images/1777272312533-d28d6daa-117f-4f5e-b5c5-d9c7542233d4.png" alt="Menu" class="menu-icon">
+        </button>
+      </div>
+
+      <div class="sidebar-actions">
+        <button class="sidebar-button sidebar-button-primary" id="new-chat" type="button">New chat</button>
+        <button class="sidebar-button" id="focus-search" type="button">Search chats</button>
+        <button class="sidebar-button" type="button">Buddy</button>
+        <button class="sidebar-button" id="feedbacks-button" type="button">Feedbacks</button>
+      </div>
+
+      <section class="sidebar-section">
+        <p class="section-label">Buddy Models</p>
+        <div class="tier-list">
+          <div class="tier-card">
+            <strong>Buddy 4.5</strong>
+            <span>Paid</span>
+          </div>
+          <div class="tier-card">
+            <strong>Buddy 4</strong>
+            <span>Free</span>
+          </div>
+          <div class="tier-card">
+            <strong>Buddy 3.5</strong>
+            <span>Free</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="sidebar-section">
+        <p class="section-label">Recent Chats</p>
+        <div class="recent-list" id="recent-list"></div>
+      </section>
+
+      <div class="sidebar-footer">
+        <button class="upgrade-button" id="upgrade-button" type="button">Upgrade</button>
+        <button class="sidebar-button sidebar-button-secondary" id="logout-button" type="button">Log out</button>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <header class="workspace-topbar">
+        <button class="icon-button icon-button-open-sidebar" id="open-sidebar" type="button" aria-label="Open sidebar" hidden>
+          <img src="https://www.image2url.com/r2/default/images/1777272658897-7fc04352-88f0-49d7-8d91-d63c963db775.png" alt="Open sidebar" class="menu-icon">
+        </button>
+        <div class="workspace-title">
+          <strong>Buddy</strong>
+          <span class="topbar-note">Multi-model workspace</span>
+        </div>
+
+        <div class="topbar-actions">
+          <span class="connection-badge" id="buddy-connection">Checking connections</span>
+          <button class="plus-button" id="top-upgrade-button" type="button">Get Plus</button>
+        </div>
+      </header>
+
+      <section class="workspace-stage" id="studio">
+        <div class="empty-state" id="empty-state">
+          <p class="welcome-line">Buddy Workspace</p>
+          <h1 id="welcome-message">How can I help today?</h1>
+          <p class="empty-note">
+            Use Buddy 4 and Buddy 3.5 for free. Buddy 4.5 and video tools are paid.
+          </p>
+        </div>
+
+        <div class="message-stream" id="message-stream" aria-live="polite"></div>
+
+        <div class="composer-area">
+          <div class="model-switcher" role="tablist" aria-label="Buddy model tiers">
+            <button class="model-pill active" type="button" data-model="buddy-4">
+              <strong>Buddy 4</strong>
+              <span>Free</span>
+            </button>
+            <button class="model-pill" type="button" data-model="buddy-3.5">
+              <strong>Buddy 3.5</strong>
+              <span>Free</span>
+            </button>
+            <button class="model-pill model-pill-paid" type="button" data-model="buddy-4.5">
+              <strong>Buddy 4.5</strong>
+              <span>Paid</span>
+            </button>
+          </div>
+
+          <p class="model-summary" id="model-summary">
+            Buddy 4 is active. Buddy handles chat and image explanation here.
+          </p>
+
+          <form class="composer-form" id="composer-form">
+            <div class="composer-shell">
+              <button class="composer-side-button" id="attach-trigger" type="button" aria-label="Attach image">+</button>
+              <textarea
+                id="prompt-input"
+                name="prompt"
+                placeholder="Ask anything"
+                rows="1"
+              ></textarea>
+              <button class="composer-send" id="send-button" type="submit">Send</button>
+            </div>
+
+            <input id="image-input" type="file" accept="image/*" hidden>
+
+            <div class="attachment-preview" id="attachment-preview" hidden>
+              <img id="attachment-image" alt="Selected preview">
+              <div class="attachment-copy">
+                <strong id="attachment-name">Selected image</strong>
+                <small>Buddy will explain this image.</small>
+              </div>
+              <button class="remove-attachment" id="remove-attachment" type="button">Remove</button>
+            </div>
+
+            <div class="quick-actions">
+              <button class="quick-action" type="button" data-action="image">Explain an image</button>
+              <button class="quick-action" type="button" data-action="generate">Generate image</button>
+              <button class="quick-action" type="button" data-action="write">Write or edit</button>
+              <button class="quick-action" type="button" data-action="lookup">Look something up</button>
+              <button class="quick-action quick-action-paid" type="button" data-action="video">Create video</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="paywall-modal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="paywall-title">
+      <div class="modal-top">
+        <div>
+          <p class="section-label">Buddy Plus</p>
+          <h2 id="paywall-title">Buddy 4.5 and video are paid features.</h2>
+        </div>
+        <button class="icon-button" id="close-paywall" type="button" aria-label="Close">X</button>
+      </div>
+
+      <p class="modal-copy">
+        Buddy 4 and Buddy 3.5 stay free. Upgrade when you want premium reasoning and video tools.
+      </p>
+
+      <div class="paywall-grid">
+        <div class="paywall-box">
+          <strong>Free</strong>
+          <span>Buddy 4</span>
+          <small>Buddy chat and image explanation</small>
+        </div>
+        <div class="paywall-box">
+          <strong>Free</strong>
+          <span>Buddy 3.5</span>
+          <small>Buddy text chat</small>
+        </div>
+        <div class="paywall-box paywall-box-premium">
+          <strong>Paid</strong>
+          <span>Buddy 4.5</span>
+          <small>Buddy premium reasoning and video access</small>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="ghost-button" id="stay-free" type="button">Stay on free</button>
+        <button class="plus-button" id="paywall-upgrade" type="button">Checkout coming soon</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="homework-buddy.js"></script>
+</body>
+</html>
